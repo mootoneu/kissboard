@@ -1,5 +1,10 @@
 <article class="container board playerboard">
-  <h4 class="board-title pcolor-bg">Player board</h4>
-  <div class="hand hand-buildings" data-slots="3"></div>
-  <div class="hand hand-gods" data-slots="1"></div>
+  <div class="">
+    <h4 class="board-title pcolor-bg">Player board</h4>
+    <button type="button" class="btn btn-primary btn-sm" onclick="kissboard.command('c_construct_temple', 'current_player', '${uid}')">Construire un temple</button>
+  </div>
+  <div class="hand hand-buildings row" data-slots="3"></div>
+  <div class="hand hand-gods row" data-slots="1">
+  </div>
+
 </article>

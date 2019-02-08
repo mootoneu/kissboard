@@ -13,7 +13,8 @@ var gamerule = (function() {
       //The boards are loaded
 
       //build decks & rendering
-      var buildings = gameengine.createDeck(gamedata.cards.buildings, true, false);
+      $g.decks = [];
+      var buildings = gameengine.registerDeck($g.decks, gamedata.cards.buildings, true, false);
       gamerenderer.insertDeck(buildings);
       buildings.opencards = [];
       createCardSlot(buildings, "#deck-buildings", "buildings_cs_01", 1);
@@ -22,7 +23,7 @@ var gamerule = (function() {
       //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_04", 4);
       //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_05", 5);
 
-      var gods = gameengine.createDeck(gamedata.cards.gods, true, true);
+      var gods = gameengine.registerDeck($g.decks, gamedata.cards.gods, true, true);
       gamerenderer.insertDeck(gods);
 
       //init players
@@ -30,22 +31,22 @@ var gamerule = (function() {
         var player = $g.session.players[i];
 
         //create game specific variables
-        player.cards = {
-          "buildings": [],
-          "gods": []
-        }
+        player.hands = {};
 
         //init hand
+        var buildingsHand = gameengine.registerHand(player.hands, buildings.data, 3);
+        var godsHand = gameengine.registerHand(player.hands, gods.data, 1);
+
         var card = gameengine.drawCard(buildings);
-        player.cards.buildings.push(card);
+        buildingsHand.draw(card);
 
         //render
         if (player.board_id != null) {
-          var slots = gamerenderer.createHand(buildings.data, player.board_id + " .hand-buildings");
-          gamerenderer.renderHand(player, player.cards.buildings);
+          var slots = gamerenderer.insertHand(buildings.data, "p"+player.index, player.board_id + " .hand-buildings");
+          gamerenderer.renderHand(player, player.hands.buildings);
 
-          slots = gamerenderer.createHand(gods.data, player.board_id + " .hand-gods");
-          gamerenderer.renderHand(player, player.cards.buildings);
+          slots = gamerenderer.insertHand(gods.data, "p"+player.index, player.board_id + " .hand-gods");
+          gamerenderer.renderHand(player, player.hands.buildings);
         }
 
         //rerender decks in which cards have been drawn

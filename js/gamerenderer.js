@@ -214,19 +214,31 @@ var gamerenderer = (function() {
     gamerule[card.deck.data.renderer].call(gamerule, card, slot_id);
   }
 
-  var createHand = function(card_data, parent_selector) {
+  var insertHand = function(card_data, owner_id, parent_selector) {
     var handElm = $(parent_selector);
     var slotsCount = handElm.data("slots");
     var slots = [];
     for (var i = 0; i < slotsCount; i++) {
-      var slot = insertCardSlot(card_data, parent_selector, "hand-slot-" + i, i);
+      var slot = insertCardSlot(card_data, parent_selector, owner_id + "-hand-slot-" + card_data.id + "-" + i, i);
       slot.addClass("hand-slot");
-      slot.data("slot_id", i);
+      slot.attr("data-slot-id", i);
       slots.push(slot);
     }
     return slots;
   }
 
+  var renderHand = function(player, hand) {
+    var slots = $(player.board_id+" .hand-slot");
+    for (var i = 0; i < slots.length; i++) {
+      var slot = $("#"+slots[i].id);
+      if (i < hand.cards.length) {
+        slot.removeClass('empty');
+        renderCard(hand.cards[i], slot.attr("id"));
+      } else {
+        slot.addClass('empty');
+      }
+    }
+  }
 
   /*------------ a-gameselection */
   var renderGameList = function() {
@@ -242,7 +254,8 @@ var gamerenderer = (function() {
     "renderDeck": renderDeck,
     "insertCardSlot": insertCardSlot,
     "renderCard": renderCard,
-    "createHand": createHand,
+    "insertHand": insertHand,
+    "renderHand": renderHand,
     "renderGameList": renderGameList
   };
 })();

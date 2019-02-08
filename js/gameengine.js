@@ -41,17 +41,17 @@ var gameengine = (function() {
     return defered;
   }
 
-  var createDeck = function(cards_obj, shouldShuffle, hasDiscardPile) {
+  var registerDeck = function(decks, cards_obj, shouldShuffle, hasDiscardPile) {
     /// Create a deck of cards from a card object (any gamedata.cards.*) and
     /// shuffle it if needed
     var deck = [];
     var deckTarget;
     //create the decks
-    $g.decks[cards_obj.id] = {
+    decks[cards_obj.id] = {
       "deck": gamedata.decks[cards_obj.id],
       "data": cards_obj
     };
-    deckTarget = $g.decks[cards_obj.id];
+    deckTarget = decks[cards_obj.id];
     //copy the cards from the gamedata to the deck
     for (var i = 0; i < cards_obj.cards.length; i++) {
       var card = cards_obj.cards[i];
@@ -72,9 +72,26 @@ var gameengine = (function() {
 
     //add a discard pile if needed
     if (hasDiscardPile) {
-      $g.decks[cards_obj.id].discard = [];
+      decks[cards_obj.id].discard = [];
     }
-    return $g.decks[cards_obj.id];
+    return decks[cards_obj.id];
+  }
+
+  var registerHand = function(hands, cards_data, maxSize) {
+    var hand = {
+      "id": cards_data.id,
+      "maxSize": maxSize,
+      "cards": [],
+      "draw": function (card) {
+        if (this.cards.length >= maxSize) throw new Error('hand is full');
+        this.cards.push(card);
+      },
+      "discard": function (card_index) {},
+      "count": function () { return this.cards.length; },
+      "canDraw": function () { return this.cards.length + 1 < maxSize; }
+    };
+    hands[hand.id] = hand;
+    return hand;
   }
 
   var shuffle = function(array) {
@@ -102,7 +119,8 @@ var gameengine = (function() {
 
   return {
     "newGame": newGame,
-    "createDeck": createDeck,
+    "registerDeck": registerDeck,
+    "registerHand": registerHand,
     "shuffle": shuffle,
     "drawCard": drawCard,
     "discardCard": discardCard

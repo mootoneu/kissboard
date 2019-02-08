@@ -4,6 +4,7 @@
     <p class="card-text price col-8">${price}</p>
     <p class="card-text points col-4">${points}</p>
     <p class="card-text effect col-12">${effect}</p>
-    <button type="button" class="btn btn-primary btn-sm col-12" onclick="kissboard.command('c_construct_building', 'current_player', '${uid}')">Construire le bâtiment</button>
+    <button type="button" class="btn btn-primary btn-sm col-12 board-command" onclick="kissboard.command('c_construct_building', 'current_player', '${uid}')">Construire le bâtiment</button>
+    <button type="button" class="btn btn-primary btn-sm col-12 player-command" onclick="kissboard.command('c_discard_building', 'current_player', '${uid}')">Détruire le bâtiment</button>
   </div>
 </div>

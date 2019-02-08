@@ -42,6 +42,13 @@ code {
   background-color: #eef;
 }
 
+
+.hand-slot.empty * {
+  visibility: hidden;
+}
+
+
+
 #board-player-01 .pcolor-bg {
   background-color: green;
 }
