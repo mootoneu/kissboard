@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/kissboard.css">
+
+    <script type="text/javascript" src="js/helper.js"/></script>
+    <script type="text/javascript" src="js/gameio.js"/></script>
+    <script type="text/javascript" src="js/gamerenderer.js"/></script>
+    <script type="text/javascript" src="js/gameengine.js"/></script>
+
+    <script type="text/javascript" src="js/gamelist.js"/></script>
+    <script type="text/javascript" src="js/kissboard.js"/></script>
+
+    <title>KISS Board</title>
+  </head>
+
+  <body>
+
+  	<header>
+  		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">K.I.S.S. Board</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+        </div>
+  		</nav>
+  	</header>
+
+  	<main id="main" role="main" class="container">
+      <h1 class="mt-5"></h1>
+      <article id="a-gameselection" class="container">
+        <form>
+          <div class="form-group">
+            <label for="joinGame">Rejoindre une partie</label>
+            <input type="text" class="form-control" id="a-gameselection-joinGame" placeholder="1234"></input>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="kissboard.GameSelection_Join()">Rejoindre</button>
+          <hr />
+
+          <div class="form-group">
+            <label for="choosenGame">Héberger une partie</label>
+            <select class="form-control" id="a-gameselection-choosenGame" onchange="if (this.selectedIndex > 0) kissboard.GameSelection_ChooseGame(this.selectedIndex);">
+              <option value="" disabled selected hidden>Please Choose...</option>
+              @{<option value="${gameid}">${gamename} (&#9823;${players_min}-${players_max})</option>} hello
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="playerCount"># de joueurs</label>
+            <select class="form-control" id="a-gameselection-playerCount">
+              @{<option value="#{}">&#9823;#{}</option>}
+            </select>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="hostOptions" id="hostOptions-host" value="host">
+            <label class="form-check-label" for="hostOptions-host">Plateau</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="hostOptions" id="hostOptions-hotseat" value="hotseat">
+            <label class="form-check-label" for="hostOptions-hotseat">Passe et joue</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="hostOptions" id="hostOptions-shared" value="shared">
+            <label class="form-check-label" for="hostOptions-shared">Partagé</label>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="kissboard.GameSelection_Host()">Héberger</button>
+        </form>
+      </article>
+  	</main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Copyright 2019 KISS Board</span>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      var $g = {};
+      $(function() {
+        kissboard.GameSelection_Init();
+      })
+
+
+    </script>
+
+  </body>
+</html>
