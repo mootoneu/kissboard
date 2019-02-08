@@ -1,38 +1,38 @@
 var gameengine = (function() {
 
-  var prefetchAllTemplates = function () {
+  var prefetchAllTemplates = function() {
     var templatesToLoad = [];
 
     for (var i = 0; i < gamedata.templates.sources.length; i++) {
       var template_name = gamedata.templates.sources[i];
-      templatesToLoad.push(gameio.fetchTemplate("games/"+$g.session.gameid+"/template/"+template_name+".html", template_name));
+      templatesToLoad.push(gameio.fetchTemplate("games/" + $g.session.gameid + "/template/" + template_name + ".html", template_name));
     }
     var deferedLoading = $.when.apply($, templatesToLoad);
     return deferedLoading;
   }
 
-  var newGame = function () {
+  var newGame = function() {
     var defered = prefetchAllTemplates();
-    defered.done(function () {
+    defered.done(function() {
 
       //Create main & player boards depending on the HOST_MODE
-      if ($g.session.host_mode != "player") {//HOST MODE
+      if ($g.session.host_mode != "player") { //HOST MODE
         gamerenderer.insertTemplate("mainboard", "#main", "mainboard");
-        if ($g.session.host_mode != "board") {//MODE SHARE or HOTSEAT
+        if ($g.session.host_mode != "board") { //MODE SHARE or HOTSEAT
           for (var player_id = 0; player_id < $g.session.players.length; player_id++) {
             var player = $g.session.players[player_id];
-            var elm = gamerenderer.insertTemplate("playerboard", "#main", "board-"+player.uid);
+            var elm = gamerenderer.insertTemplate("playerboard", "#main", "board-" + player.uid);
             elm.data("uid", $g.session.players[player_id].uid);
             elm.data("index", $g.session.players[player_id].index);
-            player.board_id = "#board-"+player.uid;
+            player.board_id = "#board-" + player.uid;
           }
         }
-      } else {// PLAYER MODE
+      } else { // PLAYER MODE
         var player = $g.session.players[$g.session.player_id];
-        var elm = gamerenderer.insertTemplate("playerboard", "#main", "board-"+player.uid);
+        var elm = gamerenderer.insertTemplate("playerboard", "#main", "board-" + player.uid);
         elm.data("uid", $g.session.players[player_id].uid);
         elm.data("index", $g.session.players[player_id].index);
-        player.board_id = "#board-"+player.uid;
+        player.board_id = "#board-" + player.uid;
       }
     });
 
@@ -41,24 +41,24 @@ var gameengine = (function() {
     return defered;
   }
 
-  var createDeck = function (cards_obj, shouldShuffle, hasDiscardPile) {
+  var createDeck = function(cards_obj, shouldShuffle, hasDiscardPile) {
     /// Create a deck of cards from a card object (any gamedata.cards.*) and
     /// shuffle it if needed
     var deck = [];
     var deckTarget;
     //create the decks
     $g.decks[cards_obj.id] = {
-      "deck":gamedata.decks[cards_obj.id],
-      "data":cards_obj
+      "deck": gamedata.decks[cards_obj.id],
+      "data": cards_obj
     };
     deckTarget = $g.decks[cards_obj.id];
     //copy the cards from the gamedata to the deck
     for (var i = 0; i < cards_obj.cards.length; i++) {
       var card = cards_obj.cards[i];
-      var copies = card.hasOwnProperty("copies")?card.copies:1;
+      var copies = card.hasOwnProperty("copies") ? card.copies : 1;
       for (var c = 1; c <= copies; c++) {
         var copy = helper.clone(card);
-        copy.uid = cards_obj.id+"_"+(""+i).padStart(3, "0")+"_"+(""+c).padStart(2, "0");
+        copy.uid = cards_obj.id + "_" + ("" + i).padStart(3, "0") + "_" + ("" + c).padStart(2, "0");
         deck.push(copy);
         copy.deck = deckTarget;
       }
@@ -77,9 +77,10 @@ var gameengine = (function() {
     return $g.decks[cards_obj.id];
   }
 
-  var shuffle = function (array) {
+  var shuffle = function(array) {
     /// Knuth shuffle, see https://bost.ocks.org/mike/shuffle/
-    var m = array.length, t, i;
+    var m = array.length,
+      t, i;
     // While there remain elements to shuffle…
     while (m) {
       // Pick a remaining element…
@@ -92,10 +93,10 @@ var gameengine = (function() {
     return array;
   }
 
-  var drawCard = function (deck) {
+  var drawCard = function(deck) {
     return deck.cards.pop();
   }
-  var discardCard = function (deck, card) {
+  var discardCard = function(deck, card) {
     deck.discard.push(card)
   }
 

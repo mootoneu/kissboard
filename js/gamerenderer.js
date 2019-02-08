@@ -1,9 +1,9 @@
 var gamerenderer = (function() {
 
-/*--- PRIVATE FUNCTIONS */
-/*------------ Rendering global */
+  /*--- PRIVATE FUNCTIONS */
+  /*------------ Rendering global */
   var renderCache = {};
-  var doRenderList = function (list, rdr) {
+  var doRenderList = function(list, rdr) {
     var result = rdr.prefix
 
     for (var i = 0; i < list.length; i++) {
@@ -13,7 +13,7 @@ var gamerenderer = (function() {
     return result;
   }
 
-  var doRenderItem = function (item, rdr) {
+  var doRenderItem = function(item, rdr) {
     var result = "";
     try {
       for (var i = 0; i < rdr.length; i++) {
@@ -27,9 +27,9 @@ var gamerenderer = (function() {
             }
           } else if (action.type == "%") {
             if (item.hasOwnProperty(action.value)) {
-              result += "<span class=\"rdr-item\" data-field=\""+action.value+"\">"+item[action.value]+"</span>";
+              result += "<span class=\"rdr-item\" data-field=\"" + action.value + "\">" + item[action.value] + "</span>";
             } else {
-              result += "<span class=\"rdr-item rdr-item-error\" data-field=\""+action.value+"\"></span>";
+              result += "<span class=\"rdr-item rdr-item-error\" data-field=\"" + action.value + "\"></span>";
             }
           } else if (action.type == "£") {
             if (item.hasOwnProperty(action.value)) {
@@ -43,13 +43,13 @@ var gamerenderer = (function() {
             for (var j = 0; j < accessors.length; j++) {
               var acc = accessors[j];
               if (acc.endsWith("()")) {
-                res = res[acc.substring(0, acc.length-2)].call();
+                res = res[acc.substring(0, acc.length - 2)].call();
               } else {
                 res = res[acc];
               }
             }
             result += res;
-          }else if (action.type == "#") {
+          } else if (action.type == "#") {
             result += item;
           }
         } else {
@@ -62,11 +62,11 @@ var gamerenderer = (function() {
     return result;
   }
 
-  var parseRenderList = function (html) {
+  var parseRenderList = function(html) {
     var rdr = {
-      "prefix":"",
-      "suffix":"",
-      "content":null
+      "prefix": "",
+      "suffix": "",
+      "content": null
     }
     try {
       var expressions = html.split('');
@@ -78,16 +78,16 @@ var gamerenderer = (function() {
         var c = expressions[i];
         switch (c) {
           case "@":
-            if (atindex === -1 && expressions[i+1] === '{') atindex = i++;
-          break;
+            if (atindex === -1 && expressions[i + 1] === '{') atindex = i++;
+            break;
           case "{":
             if (atindex === -1) break;
-            bracesCount++;//found inner brace
+            bracesCount++; //found inner brace
             break;
           case "}":
             if (atindex === -1) break;
             bracesCount--;
-            if (bracesCount == 0) {//found last braces of @{...}
+            if (bracesCount == 0) { //found last braces of @{...}
               endbraceindex = i;
             }
             break;
@@ -100,11 +100,11 @@ var gamerenderer = (function() {
         atindex = 0;
       }
       if (endbraceindex != -1 && endbraceindex < html.length) {
-        rdr.suffix = html.substring(endbraceindex+1);
+        rdr.suffix = html.substring(endbraceindex + 1);
       } else {
         endbraceindex = html.length
       }
-      rdr.content = parseRenderItem(html.substring(atindex+2, endbraceindex))
+      rdr.content = parseRenderItem(html.substring(atindex + 2, endbraceindex))
 
     } catch (err) {
       rdr.prefix = html;
@@ -112,7 +112,7 @@ var gamerenderer = (function() {
     return rdr;
   }
 
-  var parseRenderItem = function (html) {
+  var parseRenderItem = function(html) {
     var rdr = [""];
     var expressions = html.split(/\${|%{|£{|@{|#{/);
     var blockstarted = false;
@@ -123,14 +123,17 @@ var gamerenderer = (function() {
         var block = expressions[i];
         if (blockstarted) { //then next block starts with a ${
           var firstclosedbrace = block.indexOf('}');
-          if (firstclosedbrace == -1) throw "no } found near index "+ html_index;
-          rdr[++block_index] = { "type":html[html_index], "value":block.substring(0, firstclosedbrace)};
-          if (firstclosedbrace+1 < block.length) {
-            rdr[++block_index] = block.substring(firstclosedbrace+1);
+          if (firstclosedbrace == -1) throw "no } found near index " + html_index;
+          rdr[++block_index] = {
+            "type": html[html_index],
+            "value": block.substring(0, firstclosedbrace)
+          };
+          if (firstclosedbrace + 1 < block.length) {
+            rdr[++block_index] = block.substring(firstclosedbrace + 1);
           } else {
             rdr[++block_index] = "";
           }
-          html_index += 2 + block.length ;
+          html_index += 2 + block.length;
         } else {
           rdr[block_index] += block;
           blockstarted = true;
@@ -143,65 +146,71 @@ var gamerenderer = (function() {
     return rdr;
   }
 
-/*--- PUBLIC FUNCTIONS */
-/*------------ Rendering global */
-  var renderList = function (list, selector) {
+  /*--- PUBLIC FUNCTIONS */
+  /*------------ Rendering global */
+  var renderList = function(list, selector) {
     if (renderCache[selector] === undefined) {
       var html = $(selector).html().trim();
       var rdr = parseRenderList(html);
-      renderCache[selector] = {"rdr":rdr, "html":html};
+      renderCache[selector] = {
+        "rdr": rdr,
+        "html": html
+      };
     }
     $(selector).html(doRenderList(list, renderCache[selector].rdr));
   }
-  var renderItem = function (item, selector) {
+  var renderItem = function(item, selector) {
     if (renderCache[selector] === undefined) {
       var html = $(selector).html().trim();
       var rdr = parseRenderItem(html);
-      renderCache[selector] = {"rdr":rdr, "html":html};
+      renderCache[selector] = {
+        "rdr": rdr,
+        "html": html
+      };
     }
     $(selector).html(doRenderItem(item, renderCache[selector].rdr));
   }
 
-  var insertTemplate = function (template_name, parent_selector, new_id) {
+  var insertTemplate = function(template_name, parent_selector, new_id) {
     var elm = $(gamedata.templates[template_name]).clone();
     $(parent_selector).append(elm);
     if (new_id != null) elm.attr("id", new_id);
     return elm;
   }
 
-  var insertDeck = function (deck) {
-    deck.uid = "deck-"+deck.deck.id;
+  var insertDeck = function(deck) {
+    deck.uid = "deck-" + deck.deck.id;
     insertTemplate(deck.deck.template, deck.deck.parent, deck.uid);
-    insertTemplate(deck.data.template, "#"+deck.uid+" .deck .top-card");
-    insertTemplate(deck.data.template, "#"+deck.uid+" .deck-discard .top-card");
+    insertTemplate(deck.data.template, "#" + deck.uid + " .deck .top-card");
+    insertTemplate(deck.data.template, "#" + deck.uid + " .deck-discard .top-card");
 
     renderDeck(deck);
   }
 
-  var renderDeck = function (deck) {
-    renderItem(deck, "#"+deck.uid+" .deck .card-count")
+  var renderDeck = function(deck) {
+    renderItem(deck, "#" + deck.uid + " .deck .card-count")
     if (deck.cards.length == 0) {
-      $("#"+deck.uid+" .deck").addClass("empty");
+      $("#" + deck.uid + " .deck").addClass("empty");
     } else {
-      $("#"+deck.uid+" .deck").removeClass("empty");
+      $("#" + deck.uid + " .deck").removeClass("empty");
     }
     if (deck.deck.hasDiscardPile) {
-      renderItem(deck, "#"+deck.uid+" .deck-discard .card-count")
+      renderItem(deck, "#" + deck.uid + " .deck-discard .card-count")
       if (deck.discard.length == 0) {
-        $("#"+deck.uid+" .deck-discard").addClass("empty");
+        $("#" + deck.uid + " .deck-discard").addClass("empty");
       } else {
-        $("#"+deck.uid+" .deck-discard").removeClass("empty");
+        $("#" + deck.uid + " .deck-discard").removeClass("empty");
       }
     }
   }
 
-  var insertCardSlot = function (card_data, parent_selector, slot_id, slot_index) {
+  var insertCardSlot = function(card_data, parent_selector, slot_id, slot_index) {
     var elm = insertTemplate(card_data.template, parent_selector, slot_id);
     elm.data("slot_index", slot_index);
     return elm;
   }
 
-  var renderCard = function (card, slot_id) {
+  var renderCard = function(card, slot_id) {
     gamerule[card.deck.data.renderer].call(gamerule, card, slot_id);
   }
 
@@ -210,7 +219,7 @@ var gamerenderer = (function() {
     var slotsCount = handElm.data("slots");
     var slots = [];
     for (var i = 0; i < slotsCount; i++) {
-      var slot = insertCardSlot(card_data, parent_selector, "hand-slot-"+i, i);
+      var slot = insertCardSlot(card_data, parent_selector, "hand-slot-" + i, i);
       slot.addClass("hand-slot");
       slot.data("slot_id", i);
       slots.push(slot);
@@ -220,15 +229,15 @@ var gamerenderer = (function() {
 
 
   /*------------ a-gameselection */
-  var renderGameList = function () {
+  var renderGameList = function() {
     renderList(gamelist, "#a-gameselection-choosenGame");
   }
 
-/*--- PUBLIC OBJECT */
+  /*--- PUBLIC OBJECT */
   return {
-    "renderList":renderList,
-    "renderItem":renderItem,
-    "insertTemplate":insertTemplate,
+    "renderList": renderList,
+    "renderItem": renderItem,
+    "insertTemplate": insertTemplate,
     "insertDeck": insertDeck,
     "renderDeck": renderDeck,
     "insertCardSlot": insertCardSlot,

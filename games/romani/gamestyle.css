@@ -1,6 +1,7 @@
-.ressource  {
+.ressource {
   font-family: monospace;
 }
+
 .deck-group {
   border: 1px xolid black;
 }
@@ -17,21 +18,27 @@
   text-align: center;
   z-index: 1000;
 }
+
 .deck-discard button {
   visibility: hidden;
 }
+
 .flipped .card {
   background-color: #513502 !important;
 }
+
 .flipped .card * {
   visibility: hidden;
 }
+
 .deck-discard .card-count {
   color: black;
 }
+
 .deck.empty .card, .deck-discard.empty .card {
   background-color: #eee !important;
 }
+
 .deck.empty .card *, .deck-discard.empty .card * {
   visibility: hidden;
 }
@@ -49,14 +56,13 @@
   padding: 0;
   margin: 0;
 }
+
 .card button {
   padding: 0;
   height: 28px;
   max-height: 28px;
   vertical-align: center;
 }
-
-
 
 .card-building {
   width: 180px !important;
@@ -68,18 +74,22 @@
   overflow: hidden;
   padding: 6px 12px;
 }
+
 .card-building .card-title {
   text-align: center;
   height: 28px;
 }
+
 .card-building .points {
   text-align: right;
   height: 50px;
 }
+
 .card-building .points::after {
   content: "\2605";
   color: gold;
 }
+
 .card-building .effect {
   text-align: center;
   height: 28px;
@@ -88,6 +98,7 @@
 .flipped .card-god {
   background-color: #aaa !important;
 }
+
 .card-god {
   width: 180px !important;
   min-width: 180px !important;
@@ -98,29 +109,143 @@
   overflow: hidden;
   padding: 6px 12px;
 }
+
 .card-god .card-title {
   text-align: center;
   height: 28px;
 }
+
 .card-god .effect {
   text-align: center;
   height: 28px;
 }
+
 /*icons*/
+.food {
+  background-color: green;
+  color: white;
+}
 
-.food { background-color: green; color: white;} .food::after {content: "F";}
-.iron { background-color: #586984; color: white;} .iron::after {content: "I";}
-.luxury { background-color: #033584; color: white;} .luxury::after {content: "L";}
-.marble { background-color: #eeeeee; color: black;} .marble::after {content: "M";}
-.sesterce { background-color: #ffd000; color: black;} .sesterce::after {content: "S";}
-.wood { background-color: #846f58; color: white;} .wood::after {content: "W";}
-.barrel { background-color: black; color: white;} .barrel::after {content: "?";}
+.food::after {
+  content: "F";
+}
 
-.any { background-color: gray; color: white;} .any::after {content: "?";}
-.happy { background-color: yellow; color: black;} .happy::after {content: "\263A";font-size: 200%;line-height: 50%;}
-.unhappy { background-color: #ff5202; color: white;} .unhappy::after {content: "\2639";font-size: 200%;line-height: 50%;}
+.iron {
+  background-color: #586984;
+  color: white;
+}
 
-.plague { background-color: #000000; color: white;} .plague::after {content: "\2620";}
-.drought { color: black;} .drought::after {content: "\1F3DC";}
-.winter { background-color: #d8f7ff; color: black;} .winter::after {content: "\2744";}
-.threat { background-color: #a50000; color: white;} .threat::after {content: "\2694";}
+.iron::after {
+  content: "I";
+}
+
+.luxury {
+  background-color: #033584;
+  color: white;
+}
+
+.luxury::after {
+  content: "L";
+}
+
+.marble {
+  background-color: #eeeeee;
+  color: black;
+}
+
+.marble::after {
+  content: "M";
+}
+
+.sesterce {
+  background-color: #ffd000;
+  color: black;
+}
+
+.sesterce::after {
+  content: "S";
+}
+
+.wood {
+  background-color: #846f58;
+  color: white;
+}
+
+.wood::after {
+  content: "W";
+}
+
+.barrel {
+  background-color: black;
+  color: white;
+}
+
+.barrel::after {
+  content: "?";
+}
+
+.any {
+  background-color: gray;
+  color: white;
+}
+
+.any::after {
+  content: "?";
+}
+
+.happy {
+  background-color: yellow;
+  color: black;
+}
+
+.happy::after {
+  content: "\263A";
+  font-size: 200%;
+  line-height: 50%;
+}
+
+.unhappy {
+  background-color: #ff5202;
+  color: white;
+}
+
+.unhappy::after {
+  content: "\2639";
+  font-size: 200%;
+  line-height: 50%;
+}
+
+.plague {
+  background-color: #000000;
+  color: white;
+}
+
+.plague::after {
+  content: "\2620";
+}
+
+.drought {
+  color: black;
+}
+
+.drought::after {
+  content: "\1F3DC";
+}
+
+.winter {
+  background-color: #d8f7ff;
+  color: black;
+}
+
+.winter::after {
+  content: "\2744";
+}
+
+.threat {
+  background-color: #a50000;
+  color: white;
+}
+
+.threat::after {
+  content: "\2694";
+}

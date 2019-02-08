@@ -7,9 +7,9 @@ var gamerule = (function() {
     gamerenderer.renderCard(card, slot_id);
   }
 
-  var newGame = function () {
+  var newGame = function() {
     var defered = gameengine.newGame();
-    defered.done(function (data) {
+    defered.done(function(data) {
       //The boards are loaded
 
       //build decks & rendering
@@ -18,9 +18,9 @@ var gamerule = (function() {
       buildings.opencards = [];
       createCardSlot(buildings, "#deck-buildings", "buildings_cs_01", 1);
       createCardSlot(buildings, "#deck-buildings", "buildings_cs_02", 2);
-    //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_03", 3);
-    //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_04", 4);
-    //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_05", 5);
+      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_03", 3);
+      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_04", 4);
+      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_05", 5);
 
       var gods = gameengine.createDeck(gamedata.cards.gods, true, true);
       gamerenderer.insertDeck(gods);
@@ -41,10 +41,10 @@ var gamerule = (function() {
 
         //render
         if (player.board_id != null) {
-          var slots = gamerenderer.createHand(buildings.data, player.board_id+" .hand-buildings");
+          var slots = gamerenderer.createHand(buildings.data, player.board_id + " .hand-buildings");
           gamerenderer.renderHand(player, player.cards.buildings);
 
-          slots = gamerenderer.createHand(gods.data, player.board_id+" .hand-gods");
+          slots = gamerenderer.createHand(gods.data, player.board_id + " .hand-gods");
           gamerenderer.renderHand(player, player.cards.buildings);
         }
 
@@ -59,34 +59,48 @@ var gamerule = (function() {
   };
 
   //render specific
-  var r_card_building = function (card, slot_id) {
-    gamerenderer.renderItem(card, "#"+slot_id+" .card-title");
-    gamerenderer.renderItem(card, "#"+slot_id+" .points");
-    gamerenderer.renderItem(card, "#"+slot_id+" .effect");
+  var r_card_building = function(card, slot_id) {
+    gamerenderer.renderItem(card, "#" + slot_id + " .card-title");
+    gamerenderer.renderItem(card, "#" + slot_id + " .points");
+    gamerenderer.renderItem(card, "#" + slot_id + " .effect");
 
-    $("#"+slot_id+" .price").html(renderPrice(card.price));
-
-  }
-
-  var r_card_god = function (card, slot_id) {
-    gamerenderer.renderItem(card, "#"+slot_id+" .card-title");
-    gamerenderer.renderItem(card, "#"+slot_id+" .effect");
+    $("#" + slot_id + " .price").html(renderPrice(card.price));
 
   }
 
+  var r_card_god = function(card, slot_id) {
+    gamerenderer.renderItem(card, "#" + slot_id + " .card-title");
+    gamerenderer.renderItem(card, "#" + slot_id + " .effect");
 
-  var renderPrice = function (price) {
+  }
+
+
+  var renderPrice = function(price) {
     var html = "";
     var chars = price.split("");
     for (var i = 0; i < chars.length; i++) {
       switch (chars[i]) {
-        case "F": html += "<span class='ressource badge food'> </span>"; break;
-        case "I": html += "<span class='ressource badge iron'> </span>"; break;
-        case "L": html += "<span class='ressource badge luxury'> </span>"; break;
-        case "M": html += "<span class='ressource badge marble'> </span>"; break;
-        case "S": html += "<span class='ressource badge sesterce'> </span>"; break;
-        case "W": html += "<span class='ressource badge wood'> </span>"; break;
-        case "?": html += "<span class='ressource badge barrel'> </span>"; break;
+        case "F":
+          html += "<span class='ressource badge food'> </span>";
+          break;
+        case "I":
+          html += "<span class='ressource badge iron'> </span>";
+          break;
+        case "L":
+          html += "<span class='ressource badge luxury'> </span>";
+          break;
+        case "M":
+          html += "<span class='ressource badge marble'> </span>";
+          break;
+        case "S":
+          html += "<span class='ressource badge sesterce'> </span>";
+          break;
+        case "W":
+          html += "<span class='ressource badge wood'> </span>";
+          break;
+        case "?":
+          html += "<span class='ressource badge barrel'> </span>";
+          break;
       }
     }
     return html;
@@ -94,11 +108,11 @@ var gamerule = (function() {
 
 
   //commands
-  var c_construct_building = function (scope) {
+  var c_construct_building = function(scope) {
     var current_player = scope[0];
     var uid = scope[1];
   };
-  var c_construct_temple = function (scope) {
+  var c_construct_temple = function(scope) {
     var current_player = scope[0];
     var uid = scope[1];
   };

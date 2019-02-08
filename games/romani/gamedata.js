@@ -22,8 +22,7 @@ var gamedata = (function() {
         "id": "buildings",
         "template": "card-building",
         "renderer": "r_card_building",
-        "cards": [
-          {
+        "cards": [{
             "id": "trading-center",
             "title": "Marché",
             "price": "WWS",
@@ -134,8 +133,7 @@ var gamedata = (function() {
         "id": "gods",
         "template": "card-god",
         "renderer": "r_card_god",
-        "cards": [
-          {
+        "cards": [{
             "id": "vulcan",
             "title": "Vulcain",
             "effect": "2x<span class='ressource badge iron'> </span>"
@@ -225,7 +223,7 @@ var gamedata = (function() {
     },
 
     "templates": {
-      "sources":[
+      "sources": [
         "mainboard",
         "playerboard",
         "card-god",
