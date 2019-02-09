@@ -38,33 +38,10 @@ code {
   margin-bottom: 10px;
 }
 
-.mainboard {
+.mainboard, .playerboard {
   background-color: #eef;
 }
 
-
 .hand-slot.empty * {
   visibility: hidden;
-}
-
-
-
-#board-player-01 .pcolor-bg {
-  background-color: green;
-}
-
-#board-player-02 .pcolor-bg {
-  background-color: red;
-}
-
-#board-player-03 .pcolor-bg {
-  background-color: blue;
-}
-
-#board-player-04 .pcolor-bg {
-  background-color: yellow;
-}
-
-#board-player-05 .pcolor-bg {
-  background-color: purple;
 }

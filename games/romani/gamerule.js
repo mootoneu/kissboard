@@ -19,9 +19,9 @@ var gamerule = (function() {
       buildings.opencards = [];
       createCardSlot(buildings, "#deck-buildings", "buildings_cs_01", 1);
       createCardSlot(buildings, "#deck-buildings", "buildings_cs_02", 2);
-      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_03", 3);
-      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_04", 4);
-      //  createCardSlot(buildings, "#deck-buildings", "buildings_cs_05", 5);
+       createCardSlot(buildings, "#deck-buildings", "buildings_cs_03", 3);
+       createCardSlot(buildings, "#deck-buildings", "buildings_cs_04", 4);
+       createCardSlot(buildings, "#deck-buildings", "buildings_cs_05", 5);
 
       var gods = gameengine.registerDeck($g.decks, gamedata.cards.gods, true, true);
       gamerenderer.insertDeck(gods);
@@ -46,7 +46,7 @@ var gamerule = (function() {
           gamerenderer.renderHand(player, player.hands.buildings);
 
           slots = gamerenderer.insertHand(gods.data, "p"+player.index, player.board_id + " .hand-gods");
-          gamerenderer.renderHand(player, player.hands.buildings);
+          gamerenderer.renderHand(player, player.hands.gods);
         }
 
         //rerender decks in which cards have been drawn
@@ -71,7 +71,7 @@ var gamerule = (function() {
 
   var r_card_god = function(card, slot_id) {
     gamerenderer.renderItem(card, "#" + slot_id + " .card-title");
-    gamerenderer.renderItem(card, "#" + slot_id + " .effect");
+    gamerenderer.renderItem(card, "#" + slot_id + " .card-text");
 
   }
 

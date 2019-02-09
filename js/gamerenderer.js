@@ -228,7 +228,7 @@ var gamerenderer = (function() {
   }
 
   var renderHand = function(player, hand) {
-    var slots = $(player.board_id+" .hand-slot");
+    var slots = $(player.board_id+" .hand-" + hand.id + " .hand-slot");
     for (var i = 0; i < slots.length; i++) {
       var slot = $("#"+slots[i].id);
       if (i < hand.cards.length) {
