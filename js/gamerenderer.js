@@ -170,6 +170,15 @@ var gamerenderer = (function() {
     }
     $(selector).html(doRenderItem(item, renderCache[selector].rdr));
   }
+  var renderAttribute = function(data, selector, attributeName) {
+    var elm = $(selector);
+    var cache = elm.data("rdr-"+attributeName);
+    if (cache === undefined) {
+      cache = elm.attr(attributeName)
+      elm.data("rdr-"+attributeName, cache);
+    }
+    elm.attr(attributeName, doRenderItem(data, parseRenderItem(cache)));
+  }
 
   var insertTemplate = function(template_name, parent_selector, new_id) {
     var elm = $(gamedata.templates[template_name]).clone();
@@ -249,6 +258,7 @@ var gamerenderer = (function() {
   return {
     "renderList": renderList,
     "renderItem": renderItem,
+    "renderAttribute": renderAttribute,
     "insertTemplate": insertTemplate,
     "insertDeck": insertDeck,
     "renderDeck": renderDeck,

@@ -64,6 +64,7 @@ var gamerule = (function() {
     gamerenderer.renderItem(card, "#" + slot_id + " .card-title");
     gamerenderer.renderItem(card, "#" + slot_id + " .points");
     gamerenderer.renderItem(card, "#" + slot_id + " .effect");
+    gamerenderer.renderAttribute(card, "#" + slot_id + " .b-discard", "onclick");
 
     $("#" + slot_id + " .price").html(renderPrice(card.price));
 
@@ -110,12 +111,19 @@ var gamerule = (function() {
 
   //commands
   var c_construct_building = function(scope) {
+    console.log(scope);
     var current_player = scope[0];
-    var uid = scope[1];
+    var card_uid = scope[1];
+  };
+  var c_discard_building = function(scope) {
+    console.log(scope);
+    var current_player = scope[0];
+    var card_uid = scope[1];
   };
   var c_construct_temple = function(scope) {
+    console.log(scope);
     var current_player = scope[0];
-    var uid = scope[1];
+    alert("ola");
   };
 
   return {
@@ -127,6 +135,7 @@ var gamerule = (function() {
 
     //commands
     "c_construct_building": c_construct_building,
+    "c_discard_building": c_discard_building,
     "c_construct_temple": c_construct_temple
   };
 })();

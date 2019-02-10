@@ -1,7 +1,14 @@
 <article class="container board playerboard">
-  <div class="">
-    <h4 class="board-title pcolor-bg">Player board</h4>
-    <button type="button" class="btn btn-primary btn-sm" onclick="kissboard.command('c_construct_temple', 'current_player', '${uid}')">Construire un temple</button>
+  <div class="actions row">
+    <h4 class="board-title col-2">Player board</h4>
+    <button type="button" class="btn btn-primary btn-sm col-2" onclick="kissboard.command('c_construct_temple', 'current_player')">Construire un temple</button>
+    <div class="btn-group-sm" role="group">
+      <button type="button" class="btn btn-primary col-1" onclick="kissboard.command('c_construct_building', ['current_player', 0])">1</button>
+      <button type="button" class="btn btn-primary col-1" onclick="kissboard.command('c_construct_building', ['current_player', 1])">2</button>
+      <button type="button" class="btn btn-primary col-1" onclick="kissboard.command('c_construct_building', ['current_player', 2])">3</button>
+      <button type="button" class="btn btn-primary col-1" onclick="kissboard.command('c_construct_building', ['current_player', 3])">4</button>
+      <button type="button" class="btn btn-primary col-1" onclick="kissboard.command('c_construct_building', ['current_player', 4])">5</button>
+    </div>
   </div>
   <div class="row">
     <div class="hand hand-buildings col-9 row" data-slots="3"></div>

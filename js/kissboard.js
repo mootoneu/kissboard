@@ -70,6 +70,13 @@ var kissboard = (function() {
   }
 
   var command = function(command_id, scope) {
+    console.debug("Calling command", command_id, scope);
+    registerCommand(command_id, scope);
+  }
+  var registerCommand = function(command_id, scope) {
+    doCommand(command_id, scope);
+  }
+  var doCommand = function(command_id, scope) {
     ///Call a command passing it several parameters
     ///Scope can be a single element or an array containing:
     /// - current_player  =>   $g.current_player
@@ -92,7 +99,49 @@ var kissboard = (function() {
         }
       }
     }
-    gamerule["c_" + command_id].Call(params);
+    try {
+      console.debug("Calling command", command_id, scope, params);
+      gamerule["c_" + command_id].Call(params);
+    } catch (error) {
+      gamerenderer.showMessage(message("error", "Command failed", "La commande n'as pas pu être exécuté correctement.", {
+        "command_id": command_id,
+        "scope": scope,
+        "params": params,
+        "error": error
+      }));
+    }
+  }
+
+  var message = function (level, title, message, context) {
+    this.level = level;
+    this.title = title;
+    this.message = message;
+    this.context = context;
+    this.toString = function() {
+      return this.title + ": "+ this.message;
+    }
+    this.log = function() {
+      switch (level) {
+        case "success": console.info(title, message, context); break;
+        case "log": console.log(title, message, context); break;
+        case "debug": console.debug(title, message, context); break;
+        case "info": console.info(title, message, context); break;
+        case "warning": console.warn(title, message, context); break;
+        case "exception": console.exception(title, message, context); break;
+        case "error": console.error(title, message, context); break;
+      }
+    }
+    this.colorClass = function() {
+      switch (level) {
+        case "success": return "success";
+        case "log": return "success";
+        case "debug": return "light";
+        case "info": return "info";
+        case "warning": return "warning";
+        case "exception": return "danger";
+        case "error": return "danger";
+      }
+    }
   }
 
   /*--- PUBLIC OBJECT */
@@ -101,6 +150,7 @@ var kissboard = (function() {
     "GameSelection_ChooseGame": GameSelection_ChooseGame,
     "GameSelection_Host": GameSelection_Host,
     "GameSelection_Join": GameSelection_Join,
-    "command": command
+    "command": command,
+    "message": message
   };
 })();
